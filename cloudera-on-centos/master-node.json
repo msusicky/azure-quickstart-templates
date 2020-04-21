@@ -105,7 +105,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'), copyIndex())]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', "cdh-azure-prfnt-mn-sg")]"
+        "[concat('Microsoft.Network/networkSecurityGroups/', 'cdh-azure-prfnt-mn-sg')]"
       ],
       "copy": {
         "name": "masterNodeNicLoop",
@@ -128,7 +128,7 @@
           }
         ],
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', "cdh-azure-prfnt-mn-sg")]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'cdh-azure-prfnt-mn-sg')]"
         }
       }
     },
