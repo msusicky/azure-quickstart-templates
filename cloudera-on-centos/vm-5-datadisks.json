@@ -73,6 +73,7 @@
     },
     {
       "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "[parameters('resourceAPIVersions').publicIPAddresses]",
       "name": "[concat(variables('publicIPAddressName'), copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
@@ -87,6 +88,7 @@
       }
     },
     {
+      "apiVersion": "[parameters('resourceAPIVersions').networkInterfaces]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyIndex())]",
       "location": "[parameters('location')]",
