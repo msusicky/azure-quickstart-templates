@@ -105,7 +105,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'), copyIndex())]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', 'cdh-azure-prfnt-mn-sg')]"
+        "Microsoft.Network/networkSecurityGroups/cdh-azure-prfnt-mn-sg"
       ],
       "copy": {
         "name": "masterNodeNicLoop",
