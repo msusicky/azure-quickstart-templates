@@ -1,12 +1,12 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.1",
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
   "parameters": {
     "vnetID": {
-      "type": "string"
+      "type":"string"
     },
-    "resourceAPIVersion": {
-      "type": "string"
+    "resourceAPIVersions":{
+      "type":"object"
     },
     "dnsNamePrefix": {
       "type": "string"
@@ -30,17 +30,13 @@
       "type": "object"
     },
     "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
-      "metadata": {
-        "description": "Location for all resources."
-      }
+      "type": "string"
     }
   },
   "variables": {
     "singleQuote": "'",
-    "masterIP": "[parameters('networkSpec').masterIP]",
-    "workerIP": "[parameters('networkSpec').workerIP]",
+    "masterIP":"[parameters('networkSpec').masterIP]",
+    "workerIP":"[parameters('networkSpec').workerIP]",
     "vmName": "[concat(parameters('dnsNamePrefix'), '-mn')]",
     "nicName": "[concat(variables('vmName'), '-nic')]",
     "publicIPAddressName": "[concat(variables('vmName'), '-publicIP')]",
@@ -49,6 +45,7 @@
   },
   "resources": [
     {
+      "apiVersion": "[parameters('resourceAPIVersions').networkSecurityGroups]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('securityGroupName')]",
       "location": "[parameters('location')]",
@@ -72,6 +69,21 @@
       }
     },
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[concat(uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName'))]",
+      "apiVersion": "[parameters('resourceAPIVersions').storageAccounts]",
+      "sku": {
+        "name": "[parameters('storageAccount').type]"
+      },
+      "kind": "Storage",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "storageAccountLoop",
+        "count": "[parameters('vmCount')]"
+      }
+    },
+    {
+      "apiVersion": "[parameters('resourceAPIVersions').publicIPAddresses]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[concat(variables('publicIPAddressName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -87,6 +99,7 @@
       }
     },
     {
+      "apiVersion": "[parameters('resourceAPIVersions').networkInterfaces]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -120,8 +133,8 @@
       }
     },
     {
+      "apiVersion": "[parameters('resourceAPIVersions').virtualMachines]",
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2017-03-30",
       "name": "[concat(variables('vmName'), copyIndex())]",
       "plan": "[parameters('vmSpec').imageInfo.plan]",
       "location": "[parameters('location')]",
@@ -130,7 +143,8 @@
         "count": "[parameters('vmCount')]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex())]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyIndex())]",
+        "[concat('Microsoft.Storage/storageAccounts/', concat(uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName')))]"
       ],
       "properties": {
         "availabilitySet": {
@@ -144,39 +158,54 @@
           "adminUsername": "[parameters('vmSpec').adminUsername]",
           "adminPassword": "[parameters('vmSpec').adminPassword]",
           "linuxConfiguration": {
-            "disablePasswordAuthentication": false
+            "disablePasswordAuthentication": "false"
           }
         },
         "storageProfile": {
           "imageReference": "[parameters('vmSpec').imageInfo.imageReference]",
           "osDisk": {
-            "name":"[concat(variables('vmName'), copyIndex(),'_OSDisk')]",
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), '/', variables('vmName'), copyIndex(), '.vhd')]"
+            },
             "caching": "ReadWrite",
             "createOption": "FromImage"
           },
           "dataDisks": [
             {
-              "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk1')]",
-              "diskSizeGB": 128,
+              "name": "datadisk0",
+              "diskSizeGB": "512",
               "lun": 0,
+              "vhd": {
+                "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), '/', variables('vmName'), '-datadisk0.vhd')]"
+              },
               "createOption": "Empty"
             },
             {
-              "name":  "[concat(variables('vmName'), copyIndex(),'_DataDisk2')]",
-              "diskSizeGB": 128,
+              "name": "datadisk1",
+              "diskSizeGB": "512",
               "lun": 1,
+              "vhd": {
+                "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), '/', variables('vmName'), '-datadisk1.vhd')]"
+              },
               "createOption": "Empty"
             },
             {
-              "name":  "[concat(variables('vmName'), copyIndex(),'_DataDisk3')]",
-              "diskSizeGB": 128,
+              "name": "datadisk2",
+              "diskSizeGB": "512",
               "lun": 2,
+              "vhd": {
+                "uri": "[ concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), '/', variables('vmName'), '-datadisk2.vhd')]"
+              },
               "createOption": "Empty"
             },
             {
-              "name":  "[concat(variables('vmName'), copyIndex(),'_DataDisk4')]",
-              "diskSizeGB": 128,
+              "name": "datadisk3",
+              "diskSizeGB": "512",
               "lun": 3,
+              "vhd": {
+               "uri": "[ concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), '/', variables('vmName'), '-datadisk3.vhd')]"
+              },
               "createOption": "Empty"
             }
           ]
@@ -193,6 +222,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), copyIndex(), '/prepareDisks')]",
+      "apiVersion": "[parameters('resourceAPIVersions').virtualMachinesExtensions]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "nameNodeNicLoop",
@@ -212,6 +242,7 @@
             "[concat(parameters('scriptsUri'), '/scripts/initialize-node.sh')]"
           ],
           "commandToExecute": "[concat('sh initialize-node.sh ', variables('singleQuote'), variables('masterIP'), variables('singleQuote'), ' ', variables('singleQuote'), variables('workerIP'), variables('singleQuote'), ' ', variables('singleQuote'), parameters('dnsNamePrefix'), variables('singleQuote'), ' ', variables('singleQuote'), reference(concat(variables('publicIPAddressName'), copyIndex())).dnsSettings.fqdn, variables('singleQuote'), ' ', variables('singleQuote'), parameters('clusterSpec').masterNodeCount, variables('singleQuote'), ' ', variables('singleQuote'), parameters('clusterSpec').dataNodeCount, variables('singleQuote'), ' ', variables('singleQuote'), parameters('vmSpec').adminUsername, variables('singleQuote'), ' ', 'masternode', ' >> /var/log/cloudera-azure-initialize.log 2>&1')]"
+
         }
       }
     }

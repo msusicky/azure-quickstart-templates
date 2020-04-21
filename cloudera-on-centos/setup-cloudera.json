@@ -1,9 +1,9 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.1",
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
   "parameters": {
-    "resourceAPIVersion": {
-      "type": "string"
+    "resourceAPIVersions":{
+      "type":"object"
     },
     "dnsNamePrefix": {
       "type": "string"
@@ -54,22 +54,19 @@
       "type": "string"
     },
     "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
-      "metadata": {
-        "description": "Location for all resources."
-      }
+      "type": "string"
     }
   },
   "variables": {
     "singleQuote": "'",
-    "masterIP": "[parameters('networkSpec').masterIP]",
-    "workerIP": "[parameters('networkSpec').workerIP]"
+    "masterIP":"[parameters('networkSpec').masterIP]",
+    "workerIP":"[parameters('networkSpec').workerIP]"
   },
   "resources": [
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('dnsNamePrefix'), '-mn0', '/prepareDisks')]",
+      "apiVersion": "[parameters('resourceAPIVersions').virtualMachinesExtensions]",
       "location": "[parameters('location')]",
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",

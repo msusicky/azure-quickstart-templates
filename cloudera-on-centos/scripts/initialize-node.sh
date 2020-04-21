@@ -3,11 +3,11 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
+# 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#
+# 
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
@@ -69,7 +69,7 @@ NODES=()
 
 let "NAMEEND=MASTERNODES-1"
 for i in $(seq 0 $NAMEEND)
-do
+do 
   IP=$(atoi "${MASTERIP}")
   let "IP=i+IP"
   HOSTIP=$(itoa "${IP}")
@@ -78,7 +78,7 @@ done
 
 let "DATAEND=DATANODES-1"
 for i in $(seq 0 $DATAEND)
-do
+do 
   IP=$(atoi "${WORKERIP}")
   let "IP=i+IP"
   HOSTIP=$(itoa "${IP}")
@@ -125,8 +125,8 @@ numDataDirs=$(ls -la / | grep data | wc -l)
 log "numDataDirs: $numDataDirs"
 let endLoopIter=$((numDataDirs - 1))
 for x in $(seq 0 $endLoopIter)
-do
-  echo mkdir -p /"data${x}"/impala/scratch
+do 
+  echo mkdir -p /"data${x}"/impala/scratch 
   mkdir -p /"data${x}"/impala/scratch
   chmod 777 /"data${x}"/impala/scratch
 done
@@ -138,18 +138,27 @@ cat /etc/selinux/config > /tmp/beforeSelinux.out
 sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
 cat /etc/selinux/config > /tmp/afterSeLinux.out
 
-# Disable iptables
+# centos7 uses firewalld instead of iptables
 log "Disable iptables"
-/etc/init.d/iptables save
-/etc/init.d/iptables stop
-chkconfig iptables off
+firewall-cmd --runtime-to-permanent
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl stop iptables
+systemctl disable iptables
 
-# Install and start NTP
+# use ntp instead of chrony, and tuned can overwrite sysctl.conf
+log "Disable chrony and tuned"
+systemctl stop chronyd
+systemctl disable chronyd
+systemctl stop tuned
+systemctl disable tuned
+
 log "Install and start NTP"
 yum install -y ntp
-service ntpd start
-service ntpd status
-chkconfig ntpd on
+systemctl start ntpd
+systemctl status ntpd
+systemctl enable ntpd
+
 
 # Disable THP
 log "Disable THP"
@@ -180,7 +189,8 @@ myhostname=$(hostname)
 fqdnstring=$(python -c "import socket; print socket.getfqdn('$myhostname')")
 log "Set host FQDN to ${fqdnstring}"
 sed -i "s/.*HOSTNAME.*/HOSTNAME=${fqdnstring}/g" /etc/sysconfig/network
-/etc/init.d/network restart
+
+systemctl restart network
 
 #disable password authentication in ssh
 #sed -i "s/UsePAM\s*yes/UsePAM no/" /etc/ssh/sshd_config

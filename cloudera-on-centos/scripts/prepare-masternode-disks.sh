@@ -13,7 +13,7 @@
 
 LOG_FILE="/var/log/cloudera-azure-initialize.log"
 
-# manually set EXECNAME because this file is called from another script and it $0 contains a
+# manually set EXECNAME because this file is called from another script and it $0 contains a 
 # relevant path
 EXECNAME="prepare-masternode-disks.sh"
 
@@ -25,8 +25,6 @@ log() {
 # ok this is the fun part. Let's create a file here
 # use temp file to use sudo
 cat > inputs2.sh << 'END'
-
-
 
 mountDriveForLogCloudera()
 {

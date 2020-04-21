@@ -3,11 +3,11 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #   http://www.apache.org/licenses/LICENSE-2.0
-#
+# 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#
+# 
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # Usage: bootstrap-cloudera-1.0.sh {clusterName} {managment_node} {cluster_nodes} {isHA} {sshUserName} [{sshPassword}]
@@ -73,7 +73,7 @@ NAMESUFFIX=$(echo "$NAMESUFFIX" | sed 's/^[^.]*\.//')
 log "master ip: $MASTERIP"
 HOSTIP=${MASTERIP}
 ManagementNode="$HOSTIP:${NAMEPREFIX}-mn0.$NAMESUFFIX:${NAMEPREFIX}-mn0"
-log "Management Node: $ManagementNode"
+log "Management Node: $ManagementNode" 
 
 mip=${MASTERIP}
 
@@ -101,7 +101,7 @@ done
 
 let "DATAEND=DATANODES-1"
 for i in $(seq 0 $DATAEND)
-do
+do 
   IP=$(atoi "${WORKERIP}")
   let "IP=i+IP"
   HOSTIP=$(itoa "${IP}")
@@ -115,7 +115,7 @@ OIFS=$IFS
 IFS=','
 for x in $NODE_IPS
 do
-  log "Workier IP: $x"
+  log "Worker IP: $x"
   line=$(echo "$x" | sed 's/:/ /' | sed 's/:/ /')
   wip_string+=$(echo "$line" | cut -d ' ' -f 1 | sed 's/$/,/')
   log "current wip_string is: $wip_string"
@@ -126,7 +126,7 @@ log "Worker ip to be supplied to next script: $worker_ip"
 log "BEGIN: Starting detached script to finalize initialization"
 if [ "$INSTALLCDH" == "True" ]
 then
-  if ! sh initialize-cloudera-server.sh "$CLUSTERNAME" "$key" "$mip" "$worker_ip" "$HA" "$ADMINUSER" "$PASSWORD" "$CMUSER" "$CMPASSWORD" "$EMAILADDRESS" "$BUSINESSPHONE" "$FIRSTNAME" "$LASTNAME" "$JOBROLE" "$JOBFUNCTION" "$COMPANY" "$VMSIZE">/dev/null 2>&1
+  if ! sh initialize-cloudera-server.sh "$CLUSTERNAME" "$key" "$mip" "$worker_ip" "$HA" "$ADMINUSER" "$PASSWORD" "$CMUSER" "$CMPASSWORD" "$EMAILADDRESS" "$BUSINESSPHONE" "$FIRSTNAME" "$LASTNAME" "$JOBROLE" "$JOBFUNCTION" "$COMPANY" "$VMSIZE" >/dev/null 2>&1
   then
     log "initialize-cloudera-server.sh returned non-zero exit code"
     log "------- bootstrap-cloudera.sh failed -------"
