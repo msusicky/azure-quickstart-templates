@@ -47,7 +47,7 @@
     {
       "apiVersion": "[parameters('resourceAPIVersions').networkSecurityGroups]",
       "type": "Microsoft.Network/networkSecurityGroups",
-      "name": "[variables('securityGroupName')]",
+      "name": "cdh-azure-prfnt-mn-sg",
       "location": "[parameters('location')]",
       "properties": {
         "securityRules": [
@@ -105,7 +105,7 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'), copyIndex())]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('securityGroupName'))]"
+        "[concat('Microsoft.Network/networkSecurityGroups/', "cdh-azure-prfnt-mn-sg")]"
       ],
       "copy": {
         "name": "masterNodeNicLoop",
@@ -128,7 +128,7 @@
           }
         ],
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', "cdh-azure-prfnt-mn-sg")]"
         }
       }
     },
