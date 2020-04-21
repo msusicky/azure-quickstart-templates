@@ -41,7 +41,7 @@
     "nicName": "[concat(variables('vmName'), '-nic')]",
     "publicIPAddressName": "[concat(variables('vmName'), '-publicIP')]",
     "storageAccountName": "[parameters('storageAccount').prefix]",
-    "securityGroupName": "[concat(parameters('dnsNamePrefix'), '-mn-sg')]"
+    "securityGroupName": "cdh-azure-prfnt-mn-sg"
   },
   "resources": [
     {

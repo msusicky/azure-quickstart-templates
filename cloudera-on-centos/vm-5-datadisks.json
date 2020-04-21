@@ -44,7 +44,7 @@
     "vmName": "[concat(parameters('dnsNamePrefix'), '-dn')]",
     "nicName": "[concat(variables('vmName'), '-nic')]",
     "publicIPAddressName": "[concat(variables('vmName'), '-publicIP')]",
-    "securityGroupName": "[concat(parameters('dnsNamePrefix'), '-dn-sg')]"
+    "securityGroupName": "cdh-azure-prfnt-dn-sg"
   },
   "resources": [
     {
