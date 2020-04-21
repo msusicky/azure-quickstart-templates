@@ -49,6 +49,7 @@
   "resources": [
     {
       "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2017-06-01",
       "name": "cdh-azure-prfnt-dn-sg",
       "location": "[parameters('location')]",
       "properties": {
