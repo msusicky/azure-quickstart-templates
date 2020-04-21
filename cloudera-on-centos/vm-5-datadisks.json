@@ -73,7 +73,7 @@
     },
     {
       "type": "Microsoft.Network/publicIPAddresses",
-      "apiVersion": "[parameters('resourceAPIVersions').publicIPAddresses]",
+      "apiVersion": "[parameters('resourceAPIVersion').publicIPAddresses]",
       "name": "[concat(variables('publicIPAddressName'), copyIndex())]",
       "location": "[parameters('location')]",
       "copy": {
@@ -88,7 +88,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersions').networkInterfaces]",
+      "apiVersion": "[parameters('resourceAPIVersion').networkInterfaces]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -183,7 +183,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), copyIndex(), '/prepareDisks')]",
-      "apiVersion": "[parameters('resourceAPIVersions').virtualMachinesExtensions]",
+      "apiVersion": "[parameters('resourceAPIVersion').virtualMachinesExtensions]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "dataNodeNicLoop",

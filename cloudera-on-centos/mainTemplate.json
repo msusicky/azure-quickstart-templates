@@ -254,7 +254,7 @@
   },
   "variables": {
     "templateAPIVersion": "2017-05-10",
-    "resourceAPIVersions": {
+    "resourceAPIVersion": {
       "availabilitySets": "2017-03-30",
       "networkInterfaces": "2017-06-01",
       "networkSecurityGroups": "2017-06-01",
@@ -362,8 +362,8 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "resourceAPIVersions": {
-            "value": "[variables('resourceAPIVersions')]"
+          "resourceAPIVersion": {
+            "value": "[variables('resourceAPIVersion')]"
           },
           "networkSpec": {
             "value": "[variables('networkSpec')]"
@@ -397,8 +397,8 @@
           "vnetID": {
             "value": "[variables('VNetId')]"
           },
-          "resourceAPIVersions": {
-            "value": "[variables('resourceAPIVersions')]"
+          "resourceAPIVersion": {
+            "value": "[variables('resourceAPIVersion')]"
           },
           "dnsNamePrefix": {
             "value": "[parameters('dnsNamePrefix')]"
@@ -447,8 +447,8 @@
           "templateAPIVersion": {
             "value": "[variables('templateAPIVersion')]"
           },
-          "resourceAPIVersions": {
-            "value": "[variables('resourceAPIVersions')]"
+          "resourceAPIVersion": {
+            "value": "[variables('resourceAPIVersion')]"
           },
           "dnsNamePrefix": {
             "value": "[parameters('dnsNamePrefix')]"
@@ -492,8 +492,8 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "resourceAPIVersions": {
-            "value": "[variables('resourceAPIVersions')]"
+          "resourceAPIVersion": {
+            "value": "[variables('resourceAPIVersion')]"
           },
           "dnsNamePrefix": {
             "value": "[parameters('dnsNamePrefix')]"

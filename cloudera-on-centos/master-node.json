@@ -5,7 +5,7 @@
     "vnetID": {
       "type":"string"
     },
-    "resourceAPIVersions":{
+    "resourceAPIVersion":{
       "type":"object"
     },
     "dnsNamePrefix": {
@@ -45,7 +45,7 @@
   },
   "resources": [
     {
-      "apiVersion": "[parameters('resourceAPIVersions').networkSecurityGroups]",
+      "apiVersion": "[parameters('resourceAPIVersion').networkSecurityGroups]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "cdh-azure-prfnt-mn-sg",
       "location": "[parameters('location')]",
@@ -71,7 +71,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName'))]",
-      "apiVersion": "[parameters('resourceAPIVersions').storageAccounts]",
+      "apiVersion": "[parameters('resourceAPIVersion').storageAccounts]",
       "sku": {
         "name": "[parameters('storageAccount').type]"
       },
@@ -83,7 +83,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersions').publicIPAddresses]",
+      "apiVersion": "[parameters('resourceAPIVersion').publicIPAddresses]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[concat(variables('publicIPAddressName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -99,7 +99,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersions').networkInterfaces]",
+      "apiVersion": "[parameters('resourceAPIVersion').networkInterfaces]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -133,7 +133,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersions').virtualMachines]",
+      "apiVersion": "[parameters('resourceAPIVersion').virtualMachines]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyIndex())]",
       "plan": "[parameters('vmSpec').imageInfo.plan]",
@@ -222,7 +222,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), copyIndex(), '/prepareDisks')]",
-      "apiVersion": "[parameters('resourceAPIVersions').virtualMachinesExtensions]",
+      "apiVersion": "[parameters('resourceAPIVersion').virtualMachinesExtensions]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "nameNodeNicLoop",
