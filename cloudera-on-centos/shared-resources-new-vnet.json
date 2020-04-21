@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceAPIVersion":{
-      "type":"object"
+      "type":"string"
     },
     "networkSpec": {
       "type": "object"

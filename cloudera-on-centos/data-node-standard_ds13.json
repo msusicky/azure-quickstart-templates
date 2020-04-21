@@ -9,7 +9,7 @@
       "type":"string"
     },
     "resourceAPIVersion":{
-      "type":"object"
+      "type":"string"
     },
     "dnsNamePrefix": {
       "type": "string"
