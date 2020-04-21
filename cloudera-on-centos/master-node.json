@@ -45,7 +45,7 @@
   },
   "resources": [
     {
-      "apiVersion": "[parameters('resourceAPIVersion').networkSecurityGroups]",
+      "apiVersion": "[parameters('resourceAPIVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "cdh-azure-prfnt-mn-sg",
       "location": "[parameters('location')]",
@@ -71,7 +71,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[concat(uniquestring(concat(copyIndex(), 'mn', resourceGroup().id)), variables('storageAccountName'))]",
-      "apiVersion": "[parameters('resourceAPIVersion').storageAccounts]",
+      "apiVersion": "[parameters('resourceAPIVersion')]",
       "sku": {
         "name": "[parameters('storageAccount').type]"
       },
@@ -83,7 +83,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersion').publicIPAddresses]",
+      "apiVersion": "[parameters('resourceAPIVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[concat(variables('publicIPAddressName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -99,7 +99,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersion').networkInterfaces]",
+      "apiVersion": "[parameters('resourceAPIVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyIndex())]",
       "location": "[parameters('location')]",
@@ -133,7 +133,7 @@
       }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersion').virtualMachines]",
+      "apiVersion": "[parameters('resourceAPIVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), copyIndex())]",
       "plan": "[parameters('vmSpec').imageInfo.plan]",
@@ -222,7 +222,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), copyIndex(), '/prepareDisks')]",
-      "apiVersion": "[parameters('resourceAPIVersion').virtualMachinesExtensions]",
+      "apiVersion": "[parameters('resourceAPIVersion')]",
       "location": "[parameters('location')]",
       "copy": {
         "name": "nameNodeNicLoop",
