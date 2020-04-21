@@ -36,9 +36,9 @@
     },
     "masterStorageAccountType": {
       "type": "string",
-      "defaultValue": "Premium_LRS",
+      "defaultValue": "Standard_LRS",
       "metadata": {
-        "description": "The type of the Storage Account to be created for master nodes (defaults to Premium_LRS)"
+        "description": "The type of the Storage Account to be created for master nodes (defaults to Standard_LRS)"
       }
     },
     "workerStorageAccountType": {
@@ -121,7 +121,7 @@
     },
     "numberOfDataNodes": {
       "type": "int",
-      "defaultValue": 3,
+      "defaultValue": 2,
       "metadata": {
         "description": "Number of data nodes for Prod (defaults to 3)"
       }
@@ -133,8 +133,6 @@
         "description": "The size of the VMs deployed in the cluster (defaults to Standard_DS13)"
       },
       "allowedValues": [
-        "Standard_DS14",
-        "Standard_DS13",
         "Standard_DS14_V2",
         "Standard_DS13_V2"
       ]
@@ -152,7 +150,7 @@
     },
     "company": {
       "type": "string",
-      "defaultValue": "Company",
+      "defaultValue": "Profinit EU s.r.o.",
       "metadata": {
         "description": "Your Company"
       }
@@ -210,7 +208,7 @@
     },
     "jobFunction": {
       "type": "string",
-      "defaultValue": "Analytics / Business Intelligence",
+      "defaultValue": "IT",
       "metadata": {
         "description": "Job Function"
       },

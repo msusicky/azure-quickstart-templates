@@ -36,9 +36,9 @@
     },
     "masterStorageAccountType": {
       "type": "string",
-      "defaultValue": "Premium_LRS",
+      "defaultValue": "Standard_LRS",
       "metadata": {
-        "description": "The type of the Storage Account to be created for master nodes (defaults to Premium_LRS)"
+        "description": "The type of the Storage Account to be created for master nodes (defaults to Standard_LRS)"
       }
     },
     "workerStorageAccountType": {
@@ -128,13 +128,11 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_DS14",
+      "defaultValue": "Standard_DS13_V2",
       "metadata": {
         "description": "The size of the VMs deployed in the cluster (defaults to Standard_DS14)"
       },
       "allowedValues": [
-        "Standard_DS14",
-        "Standard_DS13",
         "Standard_DS14_V2",
         "Standard_DS13_V2"
       ]
