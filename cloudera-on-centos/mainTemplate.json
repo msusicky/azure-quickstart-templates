@@ -4,7 +4,7 @@
   "parameters": {
     "location": {
       "type": "string",
-      "defaultValue": "usaeast2",
+      "defaultValue": "eastus2",
       "metadata": {
         "description": "Location for the resources."
       }
@@ -37,6 +37,7 @@
     },
     "storageAccountSuffix": {
       "type": "string",
+      "defaultValue": "cdh",
       "metadata": {
         "description": "A label between 3 and 11 alphanumeric characters, inclusive. The final Storage Account name will be [13 random characters][suffix]. Only new storage accounts are supported."
       }
@@ -144,7 +145,7 @@
       "type": "string",
       "defaultValue": "Standard_DS13_v2",
       "metadata": {
-        "description": "The size of the VMs deployed in the cluster (defaults to Standard_DS14)"
+        "description": "The size of the VMs deployed in the cluster (defaults to Standard_DS13_v2)"
       },
       "allowedValues": [
         "Standard_DS14",
@@ -308,15 +309,6 @@
           "sku": "7_4",
           "version": "latest"
         }
-      },
-      "ClouderaCentOS6_7Germany": {
-        "plan": null,
-        "imageReference": {
-          "publisher": "cloudera",
-          "offer": "cloudera-centos-os",
-          "sku": "6_7",
-          "version": "latest"
-        }
       }
     },
     "vmSpec": {
@@ -357,7 +349,7 @@
           "contentVersion": "1.0.0.0",
           "resources": []
         }
-      }
+      }                 
     },
     {
       "name": "shared-resources",

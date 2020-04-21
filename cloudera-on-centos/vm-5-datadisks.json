@@ -165,30 +165,6 @@
               "diskSizeGB": 1023,
               "lun": 1,
               "createOption": "Empty"
-            },
-            {
-              "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk3')]",
-              "diskSizeGB": 1023,
-              "lun": 2,
-              "createOption": "Empty"
-            },
-            {
-              "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk4')]",
-              "diskSizeGB": 1023,
-              "lun": 3,
-              "createOption": "Empty"
-            },
-            {
-              "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk5')]",
-              "diskSizeGB": 1023,
-              "lun": 4,
-              "createOption": "Empty"
-            },
-            {
-              "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk6')]",
-              "diskSizeGB": 1023,
-              "lun": 5,
-              "createOption": "Empty"
             }
           ]
         },
