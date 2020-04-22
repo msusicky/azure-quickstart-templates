@@ -185,8 +185,7 @@
               "vhd": {
                 "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), '/', variables('vmName'), '-datadisk0.vhd')]"
               },
-              "caching": "None",
-              "toBeDetached": "false"
+              "caching": "None"
             },
             {
               "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk2')]",
@@ -196,8 +195,7 @@
               "vhd": {
                 "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), '/', variables('vmName'), '-datadisk1.vhd')]"
               },
-              "caching": "None",
-              "toBeDetached": "false"
+              "caching": "None"
             }
           ]
         },
