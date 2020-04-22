@@ -152,22 +152,37 @@
         "storageProfile": {
           "imageReference": "[parameters('vmSpec').imageInfo.imageReference]",
           "osDisk": {
+            "osType": "Linux", 
             "name": "[concat(variables('vmName'), copyIndex(),'_OSDisk')]",
+            "vhd": {
+              "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), '/', variables('vmName'), copyIndex(), '.vhd')]"
+            },
             "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "createOption": "FromImage",
+            "diskSizeGB": 50
           },
           "dataDisks": [
             {
               "name":  "[concat(variables('vmName'), copyIndex(),'_DataDisk1')]",
               "diskSizeGB": 512,
               "lun": 0,
-              "createOption": "Empty"
+              "createOption": "Empty",
+              "vhd": {
+                "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), '/', variables('vmName'), '-datadisk0.vhd')]"
+              },
+              "caching": "None",
+              "toBeDetached": false
             },
             {
               "name": "[concat(variables('vmName'), copyIndex(),'_DataDisk2')]",
-              "diskSizeGB": 1023,
+              "diskSizeGB": 512,
               "lun": 1,
-              "createOption": "Empty"
+              "createOption": "Empty",
+              "vhd": {
+                "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), variables('storageAccountName')), '2015-06-15').primaryEndpoints.blob, uniquestring(concat(copyIndex(), 'dn', resourceGroup().id)), '/', variables('vmName'), '-datadisk1.vhd')]"
+              },
+              "caching": "None",
+              "toBeDetached": false
             }
           ]
         },
