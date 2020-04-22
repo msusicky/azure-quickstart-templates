@@ -72,22 +72,6 @@
       }
     },
     {
-      "type": "Microsoft.Network/publicIPAddresses",
-      "apiVersion": "[parameters('resourceAPIVersion')]",
-      "name": "[concat(variables('publicIPAddressName'), copyIndex())]",
-      "location": "[parameters('location')]",
-      "copy": {
-        "name": "publicIPLoop",
-        "count": "[parameters('vmCount')]"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[concat(parameters('dnsNamePrefix'), '-dn', copyIndex())]"
-        }
-      }
-    },
-    {
       "apiVersion": "[parameters('resourceAPIVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), copyIndex())]",

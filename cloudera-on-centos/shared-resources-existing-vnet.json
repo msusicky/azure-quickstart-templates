@@ -21,14 +21,14 @@
   "variables": {},
   "resources": [
     {
-      "apiVersion": "[parameters('resourceAPIVersion')]",
+      "apiVersion": "2017-12-01",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('masterNodeASName')]",
       "location": "[parameters('location')]",
       "properties": { }
     },
     {
-      "apiVersion": "[parameters('resourceAPIVersion')]",
+      "apiVersion": "2017-12-01",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('dataNodeASName')]",
       "location": "[parameters('location')]",
