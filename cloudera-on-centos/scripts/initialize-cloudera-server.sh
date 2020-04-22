@@ -99,7 +99,10 @@ log "start cloudera-scm-server services"
 
 systemctl start cloudera-scm-server >> "${LOG_FILE}" 2>&1
 
+log "Installing EPEL"
 rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm >> "${LOG_FILE}" 2>&1
+
+yum -y install epel-release
 
 #log "Create HIVE metastore DB Cloudera embedded PostgreSQL"
 #export PGPASSWORD=$(head -1 /var/lib/cloudera-scm-server-db/data/generated_password.txt)
